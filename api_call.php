@@ -9,7 +9,8 @@
 
 final class Scoutnet_Api_GroupManagement_Exception extends Exception {
 
-	public function __construct($message, $code = 0) {
+	public function __construct($message, $code = 0)
+	{
 		$exMessage = 'Scoutnet Api: ' . $message;
 		$exCode = (float)$code;
 		parent::__construct($exMessage, $exCode);
@@ -51,7 +52,8 @@ private static $instance;
 	 * @throws Scoutnet_Api_GroupManagement_Exception When the given $devkey $appkey $secret is not valid
 	 * @ignore
 	 */
-	public function __construct($app,$devkey,$appkey,$secret,$debug) {
+	public function __construct($app,$devkey,$appkey,$secret,$debug)
+	{
 	
 		if ($app=='group') {
             self::$_API_HOST = self::$_API_HOST_GROUP;
@@ -96,7 +98,8 @@ private static $instance;
      * @param $str
      * @return bool
      */
-    private function _checkEmail($str) {
+    private function _checkEmail($str)
+    {
 		if(preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $str)){return true;}else{return false;}
 	}
 	
@@ -107,7 +110,8 @@ private static $instance;
 	 * @return boolean TRUE if the given developper key (public key) could be valid
 	 */
 	
-	private function _isValidDevKey($key) {
+	private function _isValidDevKey($key)
+	{
 		if ((! empty($key)) && (self::_checkEmail($key))) {
             return true;
         } else {
@@ -122,7 +126,8 @@ private static $instance;
      * @return bool TRUE if the given application key (public key) could be valid
      */
 	
-	private function _isValidAppKey($key) {
+	private function _isValidAppKey($key)
+	{
 		$regex = '/^sn[0-9]{4}$/';
 
     	return preg_match( $regex , $key);
@@ -134,7 +139,8 @@ private static $instance;
      * @param $key
      * @return bool
      */
-    private function _isValidKey($key) {
+    private function _isValidKey($key)
+    {
 		return (strlen($key) == 36);
 	}
 
@@ -143,11 +149,13 @@ private static $instance;
      * @param $secret
      * @return string
      */
-    private function _createMessageSig($params, $secret){
+    private function _createMessageSig($params, $secret)
+    {
 		return hash_hmac('md5', $params, $secret);
 	}
 
-	private function _parse_query($var){
+	private function _parse_query($var)
+	{
 		//echo $var;
 		 $var  = html_entity_decode($var);
 		//echo $var;
@@ -171,7 +179,8 @@ private static $instance;
      * @param $args
      * @return array
      */
-    public function run($endpoint, $method, $args) {
+    public function run($endpoint, $method, $args)
+    {
 
 		$https = true; // ALWAYS https !
 
