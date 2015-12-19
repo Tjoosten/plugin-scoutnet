@@ -126,21 +126,21 @@ $content = "
 			<p class=\"ondertitel\">{$group['groupname2']}<br />{$group['groupID']} [{$group['section']}]</p>
 ";
 
-if ($group['hasaddress']=='y'){
+if ($group['hasaddress']=='y') {
 $content .= "<p>{$group['street']}<br />{$group['postcode']} {$group['city']}</p>";
 }
 
-if ($group['tel']!=''){
+if ($group['tel']!='') {
 $content .= "<p>{$group['tel']}</p>";
 }
 
-if ($group['mail']!=''){
+if ($group['mail']!='') {
 $content .= "<p>".sn_scramble($group['mail'])."</p>";
 }
 
 //TODO is de pagina "leiding" wel geactiveerd ? zoniet, geen link voorzien
 
-if (count($group['contact']>0)){
+if (count($group['contact']>0)) {
 $groepsleiding_str = '';
 $content .= "<p><b>Groepsleiding:</b> ";
 foreach ($group['contact'] as $key => $value){
@@ -153,19 +153,19 @@ $content .= "$groepsleiding_str</p>";
 }
 
 
-if ($group['extra'][1]['zee']=='y'){
+if ($group['extra'][1]['zee']=='y') {
 $content .= "<p><img alt=\"zeescouts\" width=\"60\" height=\"80\" src=\"".SN_API_THEME_URL."/images/zeescouts.jpg\" title=\"zeescouts werking\" class=\"size-full alignleft\" /></p>";
 }
 
-if ($group['extra'][2]['akabe']=='y'){
+if ($group['extra'][2]['akabe']=='y') {
 $content .= "<p><img alt=\"akabe\" width=\"60\" height=\"80\" src=\"".SN_API_THEME_URL."/images/akabe.png\" title=\"akabe werking\" class=\"size-full alignleft\" /></p>";
 }
 
-if ($group['extra'][8]['das']!=''){
+if ($group['extra'][8]['das']!='') {
 $das = json_decode($group['extra'][8]['das']);
 $das_url = $das->{'url'};
 $content .= "<p><img alt=\"groepsdas\" width=\"196\" height=\"88\" src=\"$das_url\" title=\"groepsdas\" class=\"size-full alignleft\" /></p>";
-}else{
+} else {
 $content .= "<p><img alt=\"groepsdas\" width=\"196\" height=\"88\" src=\"http://images.scoutnet.be/dassen/blanco.png\" title=\"groepsdas - kleuren en formaat nog niet toegekend\" class=\"size-full alignleft\" /></p>";
 }
 
@@ -217,7 +217,7 @@ $content .= "
 		<br /><br />
 ";
 	
-	}else{
+	} else {
 	$content = "<div class=\"error\">error</div>";	
 	}
 	
@@ -227,7 +227,7 @@ $content .= "
 }
 
 
-function display_members_callback($atts,$content,$tag){
+function display_members_callback($atts,$content,$tag) {
      
 	$values = shortcode_atts(array(
 		'id' => 0,
@@ -248,8 +248,8 @@ function display_members_callback($atts,$content,$tag){
 	$groupby = array('section','type','none');
 	$values['hide'] = array();
 	
-	if (isset($options['option1'])){if ($options['option1']=='y'){$values['hide'][] = 'birthday';}}
-	if (isset($options['option2'])){if ($options['option2']=='y'){$values['hide'][] = 'phone';}}
+	if (isset($options['option1'])) {if ($options['option1']=='y') {$values['hide'][] = 'birthday';}}
+	if (isset($options['option2'])) {if ($options['option2']=='y') {$values['hide'][] = 'phone';}}
 	
 	if (!in_array($values['style'],$styles)){$values['style']=1;}
 	if (!in_array($values['groupby'],$groupby)){$values['groupby']='section';}
@@ -264,13 +264,13 @@ function display_members_callback($atts,$content,$tag){
 	if($values['id'] > 0){
  	$call = sn_getMember($values['id'],$options['accountid']);
 	
-		if ($call['decoded']['head']['status']==1){
+		if ($call['decoded']['head']['status']==1) {
 		$member = $call['decoded']['body']['data'];
 	
 		//$output = print_r($member,true);
 		return display_member_style($member,$values);
 	
-		}else{
+		} else {
 		$output = "<div class=\"error\">error</div>";
 		}
 	
@@ -282,13 +282,13 @@ function display_members_callback($atts,$content,$tag){
 	if($values['slug'] != ''){
  	$call = sn_getMember($values['slug'],$options['accountid']);
 	
-		if ($call['decoded']['head']['status']==1){
+		if ($call['decoded']['head']['status']==1) {
 		$member = $call['decoded']['body']['data'];
 	
 		//$output = print_r($member,true);
 		return display_member_style($member,$values);
 	
-		}else{
+		} else {
 		$output = "<div class=\"error\">error</div>";
 		}
 	
@@ -299,12 +299,12 @@ function display_members_callback($atts,$content,$tag){
 	
 	
 	
-	if (!isset($_SESSION['sections'][$options['accountid']])){
+	if (!isset($_SESSION['sections'][$options['accountid']])) {
 
 	$call = sn_getAllSections($options['accountid']);
 	
-	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")){
-		if ($call['decoded']['body']['num']!=0){
+	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")) {
+		if ($call['decoded']['body']['num']!=0) {
 			$all_sections = $call['decoded']['body']['data'];
 		}else{
 			$all_sections = array();
@@ -315,20 +315,20 @@ function display_members_callback($atts,$content,$tag){
 
 	$_SESSION['sections'][$options['accountid']]=$all_sections;
 	
-	}else{
+	} else {
 	$all_sections = $_SESSION['sections'][$options['accountid']];
 	}
 	
 	foreach($all_sections as $section){$mysections[]=$section['code'];}
 	
-	if (!isset($_SESSION['types'][$options['accountid']])){
+	if (! isset($_SESSION['types'][$options['accountid']])){
 
 	$call = sn_getAllTypes($options['accountid']);
 	
-	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")){
+	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")) {
 		if ($call['decoded']['body']['num']!=0){
 			$all_types = $call['decoded']['body']['data'];
-		}else{
+		} else {
 			$all_types = array();
 		}
 	} else {
@@ -337,7 +337,7 @@ function display_members_callback($atts,$content,$tag){
 
 	$_SESSION['types'][$options['accountid']]=$all_types;
 	
-	}else{
+	} else {
 	$all_types = $_SESSION['types'][$options['accountid']];
 	}
 
@@ -347,17 +347,17 @@ function display_members_callback($atts,$content,$tag){
 	
 	
 	
-	if((in_array($values['section'],$mysections)) || (in_array($values['type'],$mytypes))){
+	if ((in_array($values['section'],$mysections)) || (in_array($values['type'],$mytypes))) {
 
 		$call = sn_getSectionMembers($values['section'],$values['type']);
 		
-		if ($call['decoded']['head']['status']==1){
+		if ($call['decoded']['head']['status']==1) {
 		$members = $call['decoded']['body']['data'];
 	
 	
 		//$output = print_r($members,true);
 	
-		}else{
+		} else {
 		$output = "<div class=\"error settings-error\">error</div>";
 		}
 	
