@@ -366,39 +366,46 @@ if (isset( $submenu[ $main_menu ] ) && in_array( 'my_submenu_slug', wp_list_pluc
 			}
 			
 		}
+
+		if (isset($input['option1'])) {
+			$new_input['option1'] = 'y';
+		} else {
+			$new_input['option1'] = 'n';
+		}
+
+		if (isset($input['option2'])) {
+			$new_input['option2'] = 'y';
+		} else {
+			$new_input['option2'] = 'n';
+		}
+
+		if ($update_option) {
 		
-		
-		if( isset( $input['option1'] ) ) {$new_input['option1'] = 'y';}else{$new_input['option1'] = 'n';}
-		if( isset( $input['option2'] ) ) {$new_input['option2'] = 'y';}else{$new_input['option2'] = 'n';}
+		try {
+            $devkey = "jorisp@scoutnet.be";
+            $secret = $new_input['apigroupkey'];
+            $appkey = substr($secret,0,6);
+            $apicall = new Scoutnet_API_Call('group', $devkey, $appkey, $secret, false);
+            $method = 'GET';
+            $endpoint = "lists/";
+            $call = $apicall->run($endpoint, $method, null);
 
-		if ($update_option){
-		
-		try{
+            if ($call['decoded']['head']['status']==1) {
+                $group = $call['decoded']['body']['data'];
 
-$devkey = "jorisp@scoutnet.be";
-$secret = $new_input['apigroupkey'];
-$appkey = substr($secret,0,6);
-$apicall = new Scoutnet_API_Call('group', $devkey, $appkey, $secret, false);
-$method = 'GET';
-$endpoint = "lists/";
-$call = $apicall->run($endpoint, $method, null);
-
-if ($call['decoded']['head']['status']==1){
-$group = $call['decoded']['body']['data'];
-$new_input['accountid'] = $group[0]['accountid'];
-$new_input['groupname'] = $group[0]['groupname'];
-$new_input['orgname'] = $group[0]['orgname'];
-$new_input['depname'] = $group[0]['depname'];
-$new_input['depmark'] = $group[0]['depmark'];
-$new_input['groupID'] = $group[0]['groupID'];
-}else{
-add_settings_error( 'myUniqueIdentifyer', esc_attr( 'settings_updated' ), 'Is de secret key correct? Contacteer info@scoutnet.be', 'error' );
-$new_input['accountid'] = null;
-}
-
-}catch(Exception $e){
-add_settings_error( 'myUniqueIdentifyer', esc_attr( 'settings_updated' ), $e->getMessage(), 'error' );
-}
+                $new_input['accountid'] = $group[0]['accountid'];
+                $new_input['groupname'] = $group[0]['groupname'];
+                $new_input['orgname']   = $group[0]['orgname'];
+                $new_input['depname']   = $group[0]['depname'];
+                $new_input['depmark']   = $group[0]['depmark'];
+                $new_input['groupID']   = $group[0]['groupID'];
+            } else {
+                add_settings_error( 'myUniqueIdentifyer', esc_attr( 'settings_updated' ), 'Is de secret key correct? Contacteer info@scoutnet.be', 'error' );
+                $new_input['accountid'] = null;
+            }
+        } catch(Exception $e) {
+            add_settings_error( 'myUniqueIdentifyer', esc_attr( 'settings_updated' ), $e->getMessage(), 'error' );
+        }
 		
 		}
 		
