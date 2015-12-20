@@ -154,6 +154,10 @@ private static $instance;
 		return hash_hmac('md5', $params, $secret);
 	}
 
+	/**
+	 * @param $var
+	 * @return array
+     */
 	private function _parse_query($var)
 	{
 		//echo $var;
