@@ -168,7 +168,8 @@ if (isset($sections)&&(!empty($sections))){ // optional 1:5:9:6
 $tmp_arr['sections']=substr(trim($sections),0,50); // todo opschonen -> explode to array + intval op elk element + implode to string
 }
 
-if (isset($types)&&(!empty($types))){ // optional 1:2:3:8:9
+if (isset($types)&&(!empty($types))) {
+// optional 1:2:3:8:9
 $tmp_arr['types']=substr(trim($types),0,50);
 }
 
@@ -595,14 +596,33 @@ function display_members_style_old($members,$style){
 				$content .= "<p><a href=\"{$member['name_slug']}/\"><img class=\"size-full alignleft\" width=\"108\" height=\"176\" title=\"{$member['fname']} {$member['lname']}\" src=\"http://images.scoutnet.be/avatar/egg.jpg\" alt=\"{$member['fname']} {$member['lname']}\" /></a></p>\n";
 				}
 				}
-				if ($member['nick']!=''){$content .= "<p>totem: {$member['nick']}</p>\n";}
-				if (($member['birthday']!='0000-00-00')&&($member['birthday']!='')){$content .= "<p>{$member['fname']} " . generateBirthdayString($member['birthday'],$today) . "</p>\n";}
+				if ($member['nick']!='') {
+					$content .= "<p>totem: {$member['nick']}</p>\n";
+                }
+
+				if (($member['birthday']!='0000-00-00')&&($member['birthday']!='')) {
+                    $content .= "<p>{$member['fname']} " . generateBirthdayString($member['birthday'],$today) . "</p>\n";
+                }
+
 				$content .= "<p>";
-				if ($member['mobile']!=''){$content .= "{$member['mobile']}<br />";}
-				//if ($member['email']!=''){$content .= "".sn_scramble($member['email']);}
+
+				if ($member['mobile']!=''){
+                    $content .= "{$member['mobile']}<br />";
+                }
+
+				// if ($member['email']!='') {
+                //     $content .= "".sn_scramble($member['email']);
+                // }
+
 				$content .= "</p>\n";
-				if ($member['street']!=''){$content .= "<p>{$member['street']}<br />{$member['pcode']}</p>\n";}
-				if ($member['sections']!=''){$content .= "<p>In leiding bij : {$member['sections']}</p>\n";}
+
+				if ($member['street']!='') {
+                    $content .= "<p>{$member['street']}<br />{$member['pcode']}</p>\n";
+                }
+
+				if ($member['sections']!='') {
+                    $content .= "<p>In leiding bij : {$member['sections']}</p>\n";
+                }
 				
 				$content .= "</div>";
 				$content .= "<div class=\"clear\"></div>";

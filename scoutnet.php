@@ -53,7 +53,8 @@ add_filter( 'the_content', 'featured_image_before_content' );
 
 
 
-function my_plugin_install() {
+function my_plugin_install()
+{
 
 	//global $wpdb;
 	
@@ -73,7 +74,8 @@ require_once dirname( __FILE__ ) . '/admin.php';
 
 
 
-function my_plugin_remove() {
+function my_plugin_remove()
+{
 
 	//global $wpdb;
 	
@@ -131,11 +133,11 @@ $content .= "<p>{$group['street']}<br />{$group['postcode']} {$group['city']}</p
 }
 
 if ($group['tel']!='') {
-$content .= "<p>{$group['tel']}</p>";
+	$content .= "<p>{$group['tel']}</p>";
 }
 
 if ($group['mail']!='') {
-$content .= "<p>".sn_scramble($group['mail'])."</p>";
+	$content .= "<p>".sn_scramble($group['mail'])."</p>";
 }
 
 //TODO is de pagina "leiding" wel geactiveerd ? zoniet, geen link voorzien
@@ -321,24 +323,23 @@ function display_members_callback($atts,$content,$tag) {
 	
 	foreach($all_sections as $section){$mysections[]=$section['code'];}
 	
-	if (! isset($_SESSION['types'][$options['accountid']])){
-
-	$call = sn_getAllTypes($options['accountid']);
+	if (! isset($_SESSION['types'][$options['accountid']])) {
+		$call = sn_getAllTypes($options['accountid']);
 	
-	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")) {
-		if ($call['decoded']['body']['num']!=0){
-			$all_types = $call['decoded']['body']['data'];
+		if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")) {
+			if ($call['decoded']['body']['num']!=0) {
+				$all_types = $call['decoded']['body']['data'];
+			} else {
+				$all_types = array();
+			}
 		} else {
-			$all_types = array();
+			echo "<div class=\"error settings-error\"><p><strong>Types failure</strong></p></div>";
 		}
-	} else {
-		echo "<div class=\"error settings-error\"><p><strong>Types failure</strong></p></div>";
-	}
 
-	$_SESSION['types'][$options['accountid']]=$all_types;
+		$_SESSION['types'][$options['accountid']]=$all_types;
 	
 	} else {
-	$all_types = $_SESSION['types'][$options['accountid']];
+		$all_types = $_SESSION['types'][$options['accountid']];
 	}
 
 	foreach($all_types as $type){$mytypes[]=strtolower($type['name']);}
