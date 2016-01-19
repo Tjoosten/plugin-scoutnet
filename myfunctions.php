@@ -70,6 +70,11 @@ public function sn_getRents()
 
 }
 
+/**
+ * sn_getRent 
+ * 
+ * @param integer, $rentid
+ */
 function sn_getRent($rentid)
 {
 
@@ -94,7 +99,13 @@ return $call;
 
 }
 
-function sn_updateRent($rentid,$args)
+/**
+ * sn_updateRent 
+ * 
+ * @param integer, rentid
+ * @param $args
+ */
+function sn_updateRent($rentid, $args)
 {
 
 $rentid=intval($rentid);
@@ -140,6 +151,12 @@ return $call;
 
 }
 
+/**
+ * sn_getSectionMembers
+ * 
+ * @param $section
+ * @param $type
+ */
 function sn_getSectionMembers($section,$type)
 {
 
@@ -165,9 +182,16 @@ return $call;
 }
 
 /**
+ * sn_gatAllMembers 
  * 
+ * @param integer, $accountid
+ * @param <type>,  $sections,
+ * @param <type>,  $types
+ * @param integer, $limit
+ * @param <type>,  $sortby
+ * @param <type>,  $order
  */
-function sn_getAllMembers($accountid,$sections=null,$types=null,$limit=0,$sortby='',$order='') 
+function sn_getAllMembers($accountid , $sections = null, $types = null, $limit = 0, $sortby = '', $order = '') 
 {
 
 $tmp_arr = array();
@@ -176,28 +200,32 @@ $allowed_sort_field = array('id','fname','lname','email','username','birthday');
 $accountid = intval($accountid);
 
 
-if (isset($sections)&&(!empty($sections))){ // optional 1:5:9:6
-$tmp_arr['sections']=substr(trim($sections),0,50); // todo opschonen -> explode to array + intval op elk element + implode to string
+if (isset($sections) && (!empty($sections))) { // optional 1:5:9:6
+	$tmp_arr['sections'] = substr(trim($sections),0,50); // todo opschonen -> explode to array + intval op elk element + implode to string
 }
 
-if (isset($types)&&(!empty($types))){ // optional 1:2:3:8:9
-$tmp_arr['types']=substr(trim($types),0,50);
+if (isset($types) && (!empty($types))) { // optional 1:2:3:8:9
+	$tmp_arr['types'] = substr(trim($types),0,50);
 }
 
-if ($limit>0){ // optional 
-$tmp_arr['limit']=intval($limit);
+if ($limit > 0) { // optional 
+	$tmp_arr['limit'] = intval($limit);
 }
 
-if ((in_array(strtolower($sortby),$allowed_sort_field))){
-$tmp_arr['sortby'] = $sortby;
+if ((in_array(strtolower($sortby), $allowed_sort_field))) {
+	$tmp_arr['sortby'] = $sortby;
 }
 
-if ((in_array(strtolower($order),array('asc','desc')))){
-$tmp_arr['order'] = $order;
+if ((in_array(strtolower($order), array('asc','desc')))) {
+	$tmp_arr['order'] = $order;
 }
 
-$query_str = urldecode(http_build_query($tmp_arr,'','&'));
-if ($query_str!=''){$query_str='?'.$query_str;} 
+$query_str = urldecode(http_build_query($tmp_arr, '', '&'));
+
+if ($query_str != '') {
+	$query_str='?'.$query_str;
+	
+} 
 
 
 $args = null;
@@ -212,15 +240,22 @@ try{
 $apicall = new Scoutnet_API_Call('member', $devkey, $appkey, $secret, false);
 $call = $apicall->run($endpoint, $method, $args);
 
-}catch(Exception $e)
-{echo '<div class="error">' .$e->getMessage().'</div>';}
+} catch(Exception $e) {
+	echo '<div class="error">' .$e->getMessage().'</div>';
+	
+}
 
 return $call;
 
 }
 
-
-function sn_getAllSections($accountid){
+/**
+ * sn_getAllSections
+ * 
+ * @param integer, $accountid
+ */
+function sn_getAllSections($accountid)
+{
 
 $args = null;
 $accountid = intval($accountid);
@@ -242,7 +277,13 @@ return $call;
 
 }
 
-function sn_getAllTypes($accountid){
+/**
+ * sn_getAllTypes
+ * 
+ * @param integer, $accountid
+ */
+function sn_getAllTypes($accountid)
+{
 
 $args = null;
 $accountid = intval($accountid);
@@ -264,7 +305,14 @@ return $call;
 
 }
 
-function sn_getMember($person,$accountid){
+/**
+ * sn_getMember
+ * 
+ * @param <type>,  $person
+ * @param integer, $accountid
+ */
+function sn_getMember($person, $accountid)
+{
 
 if (is_integer($person)){
 $person = intval($person);
@@ -1461,7 +1509,13 @@ function get_mysections($accountid){
 	return $mysections;
 }
 
-function get_mytypes($accountid){
+/**
+ * get_mytypes
+ * 
+ * @param integer, $accountid
+ */
+function get_mytypes($accountid) 
+{
 	
 	$mytypes = array();
 	
@@ -1469,7 +1523,7 @@ function get_mytypes($accountid){
 
 	$call = sn_getAllTypes($accountid);
 	
-	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")){
+	if (isset($call['decoded']['head']['status']) && ($call['decoded']['head']['status'] === "1")) {
 		if ($call['decoded']['body']['num']!=0){
 			$all_types = $call['decoded']['body']['data'];
 		}else{
@@ -1481,8 +1535,8 @@ function get_mytypes($accountid){
 
 	$_SESSION['types'][$accountid]=$all_types;
 	
-	}else{
-	$all_types = $_SESSION['types'][$accountid];
+	} else {
+		$all_types = $_SESSION['types'][$accountid];
 	}
 
 	foreach($all_types as $type){$mytypes[]=strtolower($type['name']);}
@@ -1490,6 +1544,5 @@ function get_mytypes($accountid){
 	return $mytypes;
 	
 }
-
 
 ?>
