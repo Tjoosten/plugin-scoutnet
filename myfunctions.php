@@ -1,6 +1,7 @@
 <?php
 
-public function sn_getGrouplist___(){
+public function sn_getGrouplist___()
+{
 
 	$method = 'GET';
 	$endpoint = 'lists/';
@@ -21,7 +22,8 @@ public function sn_getGrouplist___(){
 	return $call;
 }
 
-public function sn_getGroup(){
+public function sn_getGroup()
+{
 
 	//lists/124?fields=sections
 
@@ -45,7 +47,8 @@ public function sn_getGroup(){
 	return $call;
 }
 
-public function sn_getRents(){
+public function sn_getRents()
+{
 
 	$args = null;
 	$method = 'GET';
@@ -67,7 +70,8 @@ public function sn_getRents(){
 
 }
 
-function sn_getRent($rentid){
+function sn_getRent($rentid)
+{
 
 $args = null;
 $rentid=intval($rentid);
@@ -90,7 +94,8 @@ return $call;
 
 }
 
-function sn_updateRent($rentid,$args){
+function sn_updateRent($rentid,$args)
+{
 
 $rentid=intval($rentid);
 $options = get_option('sn_scoutnet_api');
@@ -113,7 +118,8 @@ return $call;
 }
 
 
-function sn_getSections(){
+function sn_getSections()
+{
 
 $args = null;
 $method = 'GET';
@@ -134,7 +140,8 @@ return $call;
 
 }
 
-function sn_getSectionMembers($section,$type){
+function sn_getSectionMembers($section,$type)
+{
 
 $args = null;
 $method = 'GET';
@@ -148,15 +155,20 @@ try{
 $apicall = new Scoutnet_API_Call('group', $devkey, $appkey, $secret, false);
 $call = $apicall->run($endpoint, $method, $args);
 
-}catch(Exception $e)
-{echo '<div class="error">' .$e->getMessage().'</div>';}
+} catch(Exception $e) {
+	echo '<div class="error">' .$e->getMessage().'</div>'
+	
+}
 
 return $call;
 
 }
 
-
-function sn_getAllMembers($accountid,$sections=null,$types=null,$limit=0,$sortby='',$order=''){
+/**
+ * 
+ */
+function sn_getAllMembers($accountid,$sections=null,$types=null,$limit=0,$sortby='',$order='') 
+{
 
 $tmp_arr = array();
 $allowed_sort_field = array('id','fname','lname','email','username','birthday'); // used for sorting
